@@ -38,8 +38,8 @@ const WelcomePage = () => {
         setErrorMessage('Une erreur est survenue, veuillez réessayer');
         return;
       }
-      setUsername('')
       localStorage.setItem('username', username);
+      setUsername('')
       router.push(`/${roomId}`);
     });
   };
