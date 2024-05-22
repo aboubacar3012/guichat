@@ -12,6 +12,8 @@ const WelcomePage = () => {
   const router = useRouter();
   const roomId = "664e78bfa7c55a19f2fe12e2"
 
+
+
   const startChat = () => {
     // alert("Reviens dans quelques minutes, le nombre de participants est limité pour le moment. Merci de ta comprehension.")
     // return;
@@ -43,6 +45,13 @@ const WelcomePage = () => {
       router.push(`/${roomId}`);
     });
   };
+
+  useEffect(() => {
+    const username = localStorage.getItem('username');
+    if (username) {
+      setUsername(username);
+    }
+  }, []);
 
   useEffect(() => {
     if(errorMesaage) {
