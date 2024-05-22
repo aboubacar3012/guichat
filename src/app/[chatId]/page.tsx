@@ -107,7 +107,9 @@ const ChatWindow = (
       </div>
 
       {/* chat input */}
+      <div className="absolute bottom-0 left-1/3 transform -translate-x-1/3 min-w-full bg-secondary rounded-t-[20px] ">
       <SendMsgForm chatId={chatId} message={message} setMessage={setMessage} />
+      </div>
       <div className='mt-28' ref={messageEndRef}></div>
     </div>
   );
