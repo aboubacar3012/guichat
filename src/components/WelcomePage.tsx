@@ -10,7 +10,7 @@ const WelcomePage = () => {
   const [username, setUsername] = useState('');
   const [errorMesaage, setErrorMessage] = useState('');
   const router = useRouter();
-  const roomId = "664e65357f83881550c05a64"
+  const roomId = "664e78bfa7c55a19f2fe12e2"
 
   const startChat = () => {
     // alert("Reviens dans quelques minutes, le nombre de participants est limité pour le moment. Merci de ta comprehension.")
@@ -36,6 +36,7 @@ const WelcomePage = () => {
     }).then((response) => {
       if(!response.ok) {
         setErrorMessage('Une erreur est survenue, veuillez réessayer');
+        return;
       }
       setUsername('')
       localStorage.setItem('username', username);
