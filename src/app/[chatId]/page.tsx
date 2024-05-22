@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import Pusher from 'pusher-js';
 import SendMsgForm from '@/src/components/SendMsgForm';
 import { formatDate, formatTime } from '@/src/libs/format-date';
+import { useRouter } from 'next/navigation';
 
 type Message = {
   message: string;
@@ -22,6 +23,8 @@ const ChatWindow = (
   const [messages, setMessages] = useState<Message[]>([]);
   const messageEndRef = useRef<HTMLInputElement>(null);
   const [roomName, setRoomName] = useState('');
+
+  const router = useRouter();
 
   const chatId = params.chatId;
 
@@ -52,6 +55,9 @@ const ChatWindow = (
   useEffect(() => {
     const username = localStorage.getItem('username');
     if (username) setUsername(username);
+    else {
+      return router.push(`/`);
+    }
   }, []);
 
 
