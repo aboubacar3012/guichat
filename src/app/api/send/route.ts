@@ -4,8 +4,8 @@ const Pusher = require("pusher");
 type Data = {
   chatId: string;
   message: string;
-  sender: string;
-  time: string;
+  username: string;
+  timestamp: string;
 }
 
 export async function POST(
@@ -27,8 +27,8 @@ export async function POST(
 
   await pusher.trigger(data.chatId, "incoming-message", {
     message: `${data.message}`,
-    sender: `${data.sender}`,
-    time: `${data.time}`
+    username: `${data.username}`,
+    timestamp: `${data.timestamp}`
   });
  
   return Response.json({status: "success"});

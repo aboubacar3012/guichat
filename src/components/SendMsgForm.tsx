@@ -13,33 +13,32 @@ const SendMsgForm = (
   { chatId, message, setMessage }: SendMsgFormProps
 ) => {
 
-  const [pseudo, setPseudo] = useState('');
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
-    const pseudo = localStorage.getItem('pseudo');
-    console.log('pseudo', pseudo)
-    if(pseudo) setPseudo(pseudo);
+    const username = localStorage.getItem('username');
+    console.log('username', username)
+    if (username) setUsername(username);
   }, []);
 
   const sendMessage = async () => {
-    if(!message && message.length <= 1) {
+    if (!message && message.length <= 1) {
       alert('Vous devez entrer un message');
       return;
     }
-    const hour = new Date().toLocaleTimeString()[0] + new Date().toLocaleTimeString()[1];
-    const minute = new Date().toLocaleTimeString()[3] + new Date().toLocaleTimeString()[4];
-    console.log('sending message')
-    fetch('/api/send', {
+    
+    console.log('sending message');
+    
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ 
-        chatId: chatId,
+      body: JSON.stringify({
+        roomId: chatId,
         message: message,
-        sender: pseudo,
-        time: `${hour}:${minute}`
-       })
+        username: username
+      })
     }).finally(() => setMessage(''));
   };
 

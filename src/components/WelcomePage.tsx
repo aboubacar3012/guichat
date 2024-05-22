@@ -4,31 +4,43 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
 
 
 const WelcomePage = () => {
-  const [pseudo, setPseudo] = useState('');
+  const [username, setUsername] = useState('');
   const [errorMesaage, setErrorMessage] = useState('');
   const router = useRouter();
-  const uniqueId = "46f7d019-8934-4225-a257-afc6b1fc0607"
+  const roomId = "664e65357f83881550c05a64"
 
   const startChat = () => {
-    alert("Reviens dans quelques minutes, le nombre de participants est limité pour le moment. Merci de ta comprehension.")
-    return;
-    if(!pseudo) {
-      setErrorMessage('Vous devez entrer un pseudo');
+    // alert("Reviens dans quelques minutes, le nombre de participants est limité pour le moment. Merci de ta comprehension.")
+    // return;
+    if(!username) {
+      setErrorMessage('Vous devez entrer un username');
       return;
     }
-    if(pseudo.length <= 1) {
-      setErrorMessage('Votre pseudo doit contenir au moins 2 caractères');
+    if(username.length <= 1) {
+      setErrorMessage('Votre username doit contenir au moins 2 caractères');
       return;
     }
-    if(pseudo) {
-      setPseudo('')
-      localStorage.setItem('pseudo', pseudo);
-      router.push(`/${uniqueId}`);
-    }
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/join`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        roomId: roomId,
+        username: username
+      })
+    }).then((response) => {
+      if(!response.ok) {
+        setErrorMessage('Une erreur est survenue, veuillez réessayer');
+      }
+      setUsername('')
+      localStorage.setItem('username', username);
+      router.push(`/${roomId}`);
+    });
   };
 
   useEffect(() => {
@@ -65,12 +77,12 @@ const WelcomePage = () => {
 
         <div className="w-4/5 flex flex-col gap-2">
           <input
-            value={pseudo}
-            onChange={(e) => setPseudo(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             type="text"
             id="title"
             name="title"
-            placeholder="Entrez votre pseudo"
+            placeholder="Entrez votre username"
             className="p-2 border border-gray-300 rounded-md"
           />
         </div>

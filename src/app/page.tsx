@@ -10,9 +10,9 @@ const MessageList = () => {
   const [pseudo, setPseudo] = useState('hakimJ');
 
   const messages = [
-    { id: 1, name: 'Danny Hopkins', email: 'danny@youwe.com', time: '08:43', imgSrc: '/images/user.png' },
-    { id: 2, name: 'Bobby Langford', email: 'bobby@example.com', time: 'Tue', imgSrc: '/images/user.png' },
-    { id: 3, name: 'William Wiles', email: 'william@example.com', time: 'Sun', imgSrc: '/images/user.png' },
+    { id: 1, name: 'Danny Hopkins', email: 'danny@youwe.com', timestamp: '08:43', imgSrc: '/images/user.png' },
+    { id: 2, name: 'Bobby Langford', email: 'bobby@example.com', timestamp: 'Tue', imgSrc: '/images/user.png' },
+    { id: 3, name: 'William Wiles', email: 'william@example.com', timestamp: 'Sun', imgSrc: '/images/user.png' },
     // Add more messages here
   ];
   useEffect(() => {

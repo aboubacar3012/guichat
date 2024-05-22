@@ -9,8 +9,8 @@ import { formatDate } from '@/src/libs/format-date';
 
 type Message = {
   message: string;
-  sender: string;
-  time: string;
+  username: string;
+  timestamp: string;
 }
 
 
@@ -36,6 +36,17 @@ const ChatWindow = (
   //   });
   // }, []);
 
+  const getRoomMessages = async () => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${chatId}`);
+    const data = await response.json();
+    // console.log(data);
+    setMessages(data.roomMessages);
+    scrollTobottom();
+  }
+
+  useEffect(() => {
+    getRoomMessages();
+  }, []);
 
   useEffect(() => {
     const pseudo = localStorage.getItem('pseudo');
@@ -55,8 +66,8 @@ const ChatWindow = (
       // console.log(parsedComments);
       const message = {
         message: data.message,
-        sender: data.sender,
-        time: data.time
+        username: data.username,
+        timestamp: data.timestamp
       }
       setMessages((prev) => [...prev, message]);
       scrollTobottom();
@@ -77,6 +88,8 @@ const ChatWindow = (
   }
 
 
+  console.log(pseudo)
+
 
 
   return (
@@ -86,19 +99,19 @@ const ChatWindow = (
         <p className="text-textPrimary text-lg font-semibold">Chat Room</p>
       </div>
 
-      <div className="scrollable-content overflow-y-auto h-full  p-4">
+      <div className="w-full flex flex-col scrollable-content overflow-y-auto h-full  p-4">
         <p className="text-textSecondary py-4 text-center">
           {formatDate(new Date().toString())}
         </p>
         {
           messages.map((msg, index) => (
-            <div key={index} className={`w-4/5 flex flex-col gap-2  text-textPrimary p-4 rounded-2xl my-2 ${msg.sender === pseudo ? 'self-end bg-blue-500' : 'bg-secondary'}`}>
-              {msg.sender !== pseudo && <p className="font-semibold text-gray-500">{msg.sender}</p>}
+            <div key={index} className={`w-4/5 flex flex-col gap-2  text-textPrimary p-4 rounded-2xl my-2 ${msg.username === pseudo ? 'self-end bg-blue-500' : 'bg-secondary'}`}>
+              {msg.username !== pseudo && <p className="font-semibold text-gray-500">{msg.username}</p>}
               <p className="w-full break-words">
                 {msg.message}
               </p>
               <p className="font-semibold text-right text-xs">
-                {msg.time}
+                {msg.timestamp}
               </p>
             </div>
           ))
