@@ -14,6 +14,8 @@ const WelcomePage = () => {
   const uniqueId = "46f7d019-8934-4225-a257-afc6b1fc0607"
 
   const startChat = () => {
+    alert("Reviens dans quelques minutes, le nombre de participants est limité pour le moment. Merci de ta comprehension.")
+    return;
     if(!pseudo) {
       setErrorMessage('Vous devez entrer un pseudo');
       return;

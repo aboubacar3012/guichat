@@ -76,7 +76,7 @@ const ChatWindow = (
     return <div>Chat not found</div>;
   }
 
-  
+
 
 
   return (
@@ -108,7 +108,7 @@ const ChatWindow = (
 
       {/* chat input */}
       <div className="fixed max-w-[430px] bottom-0 left-1/2 transform -translate-x-1/2 w-full bg-secondary rounded-t-[20px] p-4">
-      <SendMsgForm chatId={chatId} message={message} setMessage={setMessage} />
+        <SendMsgForm chatId={chatId} message={message} setMessage={setMessage} />
       </div>
       <div className='mt-28' ref={messageEndRef}></div>
     </div>
