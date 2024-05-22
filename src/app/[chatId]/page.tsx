@@ -80,7 +80,7 @@ const ChatWindow = (
 
 
   return (
-    <div className="relative h-screen bg-primary overflow-y-auto pb-20">
+    <div className="relative h-screen bg-primary overflow-hidden">
       <div className="flex gap-4 py-2 justify-center items-center p-4">
         {/* <Image src="/images/user.png" alt="User" width={50} height={50} className='h-12 w-13 rounded-full' /> */}
         <p className="text-textPrimary text-lg font-semibold">Chat Room</p>
@@ -89,7 +89,7 @@ const ChatWindow = (
         <p className="text-textSecondary py-4 text-center">
           {formatDate(new Date().toString())}
         </p>
-        <div className="flex flex-col items-start gap-4">
+        <div className="scrollable-content overflow-y-auto h-full pb-20">
           {
             messages.map((msg, index) => (
               <div key={index} className={`w-4/5 flex flex-col gap-2  text-textPrimary p-4 rounded-2xl my-2 ${msg.sender === pseudo ? 'self-end bg-blue-500' : 'bg-secondary'}`}>
@@ -107,7 +107,7 @@ const ChatWindow = (
       </div>
 
       {/* chat input */}
-      <div className="absolute bottom-0 left-1/3 transform -translate-x-1/3 min-w-full bg-secondary rounded-t-[20px] ">
+      <div className="fixed max-w-[430px] bottom-0 left-1/2 transform -translate-x-1/2 w-full bg-secondary rounded-t-[20px] p-4">
       <SendMsgForm chatId={chatId} message={message} setMessage={setMessage} />
       </div>
       <div className='mt-28' ref={messageEndRef}></div>
