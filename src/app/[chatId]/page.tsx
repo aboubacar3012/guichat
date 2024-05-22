@@ -43,7 +43,6 @@ const ChatWindow = (
     // console.log(data);
     setMessages(data.roomMessages);
     setRoomName(data.roomName);
-    scrollTobottom();
   }
 
   useEffect(() => {
@@ -84,6 +83,11 @@ const ChatWindow = (
   const scrollTobottom = () => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    scrollTobottom();
+  }
+    , [messages]);
 
   if (!chatId) {
     return <div>Chat not found</div>;
