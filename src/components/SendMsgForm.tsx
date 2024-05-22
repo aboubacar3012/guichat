@@ -22,7 +22,10 @@ const SendMsgForm = (
   }, []);
 
   const sendMessage = async () => {
-    if(!message && message.length <= 1) alert('Vous devez entrer un message');
+    if(!message && message.length <= 1) {
+      alert('Vous devez entrer un message');
+      return;
+    }
     const hour = new Date().toLocaleTimeString()[0] + new Date().toLocaleTimeString()[1];
     const minute = new Date().toLocaleTimeString()[3] + new Date().toLocaleTimeString()[4];
     console.log('sending message')
@@ -48,7 +51,7 @@ const SendMsgForm = (
         onChange={(e) => setMessage(e.target.value)}
         type="text"
         placeholder="Entrez votre message ..."
-        className="focus:border-none relative w-full bg-secondary text-textPrimary px-4 py-8 rounded-t-3xl"
+        className="focus:border-none relative w-full bg-secondary text-textPrimary px-4 py-4 rounded-t-3xl"
       />
       <VscSend onClick={sendMessage} className="h-12 w-12 absolute right-4 top-6 bg-accent text-textPrimary p-2 rounded-full" />
     </div>

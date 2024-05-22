@@ -27,7 +27,7 @@ body {
 }
 
 .scrollable-content {
-  height: calc(100vh - 100px); /* Ajustez cette valeur en fonction de la hauteur du formulaire fixé */
+  height: calc(100vh - 150px); /* Ajustez cette valeur en fonction de la hauteur du formulaire fixé */
   overflow-y: auto;
 }
 
