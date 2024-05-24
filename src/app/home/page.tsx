@@ -121,7 +121,7 @@ const HomePage = () => {
         <h1 className="text-xl font-bold text-textPrimary">Canaux</h1>
         <div className="flex w-2/3 ">
           <button className="w-1/2 bg-accent text-textPrimary py-2 rounded-2xl rounded-r-none">Public</button>
-          <button className="w-1/2 bg-secondary text-textPrimary py-2 rounded-2xl rounded-l-none">Privée</button>
+          <button className="w-1/2 bg-secondary text-textPrimary py-2 rounded-2xl rounded-l-none">Privés</button>
         </div>
       </div>
       <div className='h-full flex flex-col gap-2 bg-secondary p-4 rounded-t-3xl'>
