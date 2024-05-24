@@ -8,11 +8,13 @@ import { getRandomAvatar } from '@/src/avatars';
 import { useDispatch, useSelector } from "react-redux";
 import { addUsername, isAuthenticated, login } from "../redux/features/authSlice";
 import { RootState } from "../redux/store";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 
 const WelcomePage = () => {
   const [username, setUsername] = useState('');
   const [errorMesaage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth);
@@ -20,6 +22,7 @@ const WelcomePage = () => {
 
 
   const startChat = () => {
+    if (auth.isAuthenticated && auth.username) return router.push(`/home`);
     // alert("Reviens dans quelques minutes, le nombre de participants est limité pour le moment. Merci de ta comprehension.")
     // return;
     if (!username) {
@@ -31,6 +34,7 @@ const WelcomePage = () => {
       return;
     }
 
+    setIsLoading(true);
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
       method: 'POST',
       headers: {
@@ -46,14 +50,15 @@ const WelcomePage = () => {
         return;
       }
       setUsername('')
-      dispatch(login({ username: username, isAuthenticated: true}));
+      dispatch(login({ username: username, isAuthenticated: true }));
+      setIsLoading(false);
       router.push(`/home`);
     });
 
   };
 
   useEffect(() => {
-    if(auth.isAuthenticated && auth.username) setUsername(auth.username);
+    if (auth.isAuthenticated && auth.username) setUsername(auth.username);
   }, [auth]);
 
   useEffect(() => {
@@ -66,6 +71,9 @@ const WelcomePage = () => {
 
   return (
     <div className="relative h-screen flex justify-center">
+      {
+        isLoading && <LoadingOverlay />
+      }
       {/* Le nom de mon entreprrise */}
       <img
         src="https://img.freepik.com/free-vector/vector-social-contact-seamless-pattern-white-blue_1284-41919.jpg?t=st=1716406541~exp=1716410141~hmac=3f12a8325a047bb43430a5454861b203fbfc8272e4f33b251ab21743df8f245e&w=826"
