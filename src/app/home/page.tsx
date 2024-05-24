@@ -4,6 +4,7 @@
 import { getRandomAvatar } from '@/src/avatars';
 import { getBgColorByLetter } from '@/src/colors';
 import Hero from '@/src/components/Hero';
+import MessageCardSkeleton from '@/src/components/MessageCardSkeleton';
 import { formatTime } from '@/src/libs/format-date';
 import Image from 'next/image'
 import Link from 'next/link';
@@ -15,6 +16,7 @@ const HomePage = () => {
   const [username, setUsername] = useState('');
   const [rooms, setRooms] = useState([]);
   const router = useRouter();
+  const [isRoomsLoading, setIsRoomsLoading] = useState(true);
 
   const users = [
     { id: 1, username: 'Tanos', avatarSrc: getRandomAvatar() },
@@ -44,6 +46,7 @@ const HomePage = () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`);
     const rooms = await response.json();
     setRooms(rooms);
+    setIsRoomsLoading(false);
   }
 
   const joinRoom = async (roomId: string) => {
@@ -125,6 +128,22 @@ const HomePage = () => {
         </div>
       </div>
       <div className='h-full flex flex-col gap-2 bg-secondary p-4 rounded-t-3xl'>
+        {isRoomsLoading && (
+          <>
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+            <MessageCardSkeleton />
+          </>
+        ) }
         {
           rooms && rooms.map((room: any) => {
             if (room.type !== 'public') return;
