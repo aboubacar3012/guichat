@@ -7,6 +7,11 @@ import Pusher from 'pusher-js';
 import SendMsgForm from '@/src/components/SendMsgForm';
 import { formatDate, formatTime } from '@/src/libs/format-date';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/redux/store';
+import TwoChatLoading from '@/src/components/LoadingOverlay';
+import Link from 'next/link';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 type Message = {
   message: string;
@@ -23,6 +28,8 @@ const ChatWindow = (
   const [messages, setMessages] = useState<Message[]>([]);
   const messageEndRef = useRef<HTMLInputElement>(null);
   const [roomName, setRoomName] = useState('');
+  const auth = useSelector((state: RootState) => state.auth);
+
 
   const router = useRouter();
 
@@ -41,7 +48,7 @@ const ChatWindow = (
   // }, []);
 
   const getRoomMessages = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${chatId}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rooms/${chatId}`);
     const data = await response.json();
     // console.log(data);
     setMessages(data.roomMessages);
@@ -56,13 +63,10 @@ const ChatWindow = (
   }, []);
 
   useEffect(() => {
-    getRoomMessages();
-  }, []);
-
-  useEffect(() => {
-    const username = localStorage.getItem('username');
-    if (username) setUsername(username);
-    else {
+    if (auth.isAuthenticated && auth.username) {
+      setUsername(auth.username);
+      getRoomMessages();
+    } else {
       return router.push(`/`);
     }
   }, []);
@@ -85,7 +89,7 @@ const ChatWindow = (
         timestamp: data.timestamp
       }
       setMessages((prev) => [...prev, message]);
-      scrollTobottom();
+      scrollToBottom();
 
       // Afficher une notification
       if (Notification.permission === "granted") {
@@ -101,12 +105,12 @@ const ChatWindow = (
   }, []);
 
 
-  const scrollTobottom = () => {
+  const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
-    scrollTobottom();
+    scrollToBottom();
   }
     , [messages]);
 
@@ -121,7 +125,11 @@ const ChatWindow = (
 
   return (
     <div className="relative h-screen bg-primary overflow-hidden">
-      <div className="flex gap-4 py-2 justify-center items-center p-4">
+      <Link href="/home" className='absolute top-2 left-4 text-white'>
+        <IoMdArrowRoundBack className="font-light h-10 w-10" />
+      </Link>
+
+      <div className="flex gap-4 py-4 justify-center items-center p-4">
         {/* <Image src="/images/user.png" alt="User" width={50} height={50} className='h-12 w-13 rounded-full' /> */}
         <p className="text-textPrimary text-lg font-semibold">
           {roomName}

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { VscSend } from "react-icons/vsc";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 type SendMsgFormProps = {
   chatId: string;
@@ -14,11 +16,11 @@ const SendMsgForm = (
 ) => {
 
   const [username, setUsername] = useState('');
+  const auth = useSelector((state: RootState) => state.auth);
+
 
   useEffect(() => {
-    const username = localStorage.getItem('username');
-    console.log('username', username)
-    if (username) setUsername(username);
+    if(auth.isAuthenticated && auth.username) setUsername(auth.username);
   }, []);
 
   const sendMessage = async () => {
@@ -29,7 +31,7 @@ const SendMsgForm = (
     
     console.log('sending message');
     
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/message`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/rooms/message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

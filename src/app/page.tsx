@@ -4,42 +4,60 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getRandomAvatar } from '@/src/avatars';
+import { useDispatch, useSelector } from "react-redux";
+import { addUsername, isAuthenticated, login } from "../redux/features/authSlice";
+import { RootState } from "../redux/store";
 
 
 const WelcomePage = () => {
   const [username, setUsername] = useState('');
   const [errorMesaage, setErrorMessage] = useState('');
   const router = useRouter();
-  const roomId = "664e78bfa7c55a19f2fe12e2"
+  const dispatch = useDispatch();
+  const auth = useSelector((state: RootState) => state.auth);
 
 
 
   const startChat = () => {
     // alert("Reviens dans quelques minutes, le nombre de participants est limité pour le moment. Merci de ta comprehension.")
     // return;
-    if(!username) {
+    if (!username) {
       setErrorMessage('Vous devez entrer un username');
       return;
     }
-    if(username.length <= 1) {
+    if (username.length <= 1) {
       setErrorMessage('Votre username doit contenir au moins 2 caractères');
       return;
     }
 
-    localStorage.setItem('username', username);
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        icon: getRandomAvatar(),
+        username: username
+      })
+    }).then((response) => {
+      if (!response.ok) {
+        alert('Une erreur est survenue, veuillez réessayer');
+        return;
+      }
       setUsername('')
+      dispatch(login({ username: username, isAuthenticated: true}));
       router.push(`/home`);
+    });
+
   };
 
   useEffect(() => {
-    const username = localStorage.getItem('username');
-    if (username) {
-      setUsername(username);
-    }
-  }, []);
+    if(auth.isAuthenticated && auth.username) setUsername(auth.username);
+  }, [auth]);
 
   useEffect(() => {
-    if(errorMesaage) {
+    if (errorMesaage) {
       setTimeout(() => {
         setErrorMessage('');
       }, 3000);
