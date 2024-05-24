@@ -48,6 +48,13 @@ const ChatWindow = (
     setRoomName(data.roomName);
   }
 
+  // Demander la permission pour les notifications
+  useEffect(() => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+
   useEffect(() => {
     getRoomMessages();
   }, []);
@@ -59,6 +66,7 @@ const ChatWindow = (
       return router.push(`/`);
     }
   }, []);
+
 
 
   useEffect(() => {
@@ -78,6 +86,13 @@ const ChatWindow = (
       }
       setMessages((prev) => [...prev, message]);
       scrollTobottom();
+
+      // Afficher une notification
+      if (Notification.permission === "granted") {
+        new Notification("Nouveau message de " + data.username, {
+          body: data.message,
+        });
+      }
     });
 
     return () => {

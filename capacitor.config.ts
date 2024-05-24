@@ -7,8 +7,8 @@ const config: CapacitorConfig = {
   webDir: "out",
   server: {
     androidScheme: "https",
-    // url: "",
-    url: "http://10.188.174.26:3000/chatid",
+    url: "https://guichat.vercel.app/",
+    // url: "http://10.188.174.26:3000/chatid",
   },
   plugins: {
     SplashScreen: {
