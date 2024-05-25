@@ -19,7 +19,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 const HomePage = () => {
-  const [username, setUsername] = useState('');
   const [rooms, setRooms] = useState([]);
   const [isRoomsLoading, setIsRoomsLoading] = useState(true);
   const [users, setUsers] = useState([]);
@@ -28,11 +27,21 @@ const HomePage = () => {
   const router = useRouter();
   const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
+  const [displayedChannel, setDisplayedChannel] = useState('public'); // public or private
 
+  const roomsToShow = rooms && rooms.length > 0 ? rooms.filter((room: any) => {
+    if (displayedChannel === 'public') return room.type === 'public';
+    return room.type === "privateTwo" || room.type === "privateGroup";
+  }) : [];
 
+  const getOtherUserInTwoChat = (room: any) => {
+    const otherUser = room.roomMembers.find((member: any) => member.username !== auth.username);
+    if (!otherUser) return '';
+    return otherUser.username;
+  }
 
   const getRooms = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rooms`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rooms/${auth.username}`,);
     const rooms = await response.json();
     setRooms(rooms);
     setIsRoomsLoading(false);
@@ -69,7 +78,7 @@ const HomePage = () => {
   }
 
   const joinRoom = async (roomId: string) => {
-    if (!username) {
+    if (!auth.username) {
       alert('Vous devez entrer un username');
       return router.push('/');
     }
@@ -80,7 +89,7 @@ const HomePage = () => {
       },
       body: JSON.stringify({
         roomId: roomId,
-        username: username
+        username: auth.username
       })
     }).then((response) => {
       if (!response.ok) {
@@ -93,7 +102,6 @@ const HomePage = () => {
 
   useEffect(() => {
     if (auth.isAuthenticated && auth.username) {
-      setUsername(auth.username);
       getRooms();
       getUsers();
     } else {
@@ -108,7 +116,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-primary ">
       {
-        isRoomsLoading && isUsersLoading && <LoadingOverlay />
+        loadingTwoChat && <LoadingOverlay />
       }
       <CreateRoomForm />
       <Hero />
@@ -116,7 +124,7 @@ const HomePage = () => {
         <p className="text-textSecondary">Utilisateurs</p>
       </div>
       <button
-        className="z-50 fixed bottom-4 right-4 bg-blue-500 text-3xl text-white px-6 py-3 rounded-2xl"
+        className="z-50 flex justify-center items-center fixed top-2 right-4 bg-blue-500 text-3xl text-white px-4  rounded-2xl"
         onClick={() => dispatch(updateControl({ showRoomForm: true }))}
       >
         +
@@ -125,7 +133,7 @@ const HomePage = () => {
         <div className="w-full flex flex-col justify-center items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="https://api.dicebear.com/8.x/bottts/svg?seed=Patches" alt="User" className='h-14 min-w-16 rounded-full border-2 border-green-500' />
-          <p className="text-textPrimary">Moi</p>
+          <p className="text-textPrimary">{auth.username}(Moi)</p>
         </div>
         {isUsersLoading && (
           <>
@@ -146,7 +154,7 @@ const HomePage = () => {
         {users && users.map((user: any) => user.username !== auth.username ? (
           <div onClick={async () => joinTwoChat(auth.username, user.username)} key={user.id} className=" flex flex-col justify-center items-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={user.icon} alt="User" className='h-14 min-w-16 rounded-full border-2 border-green-200' />
+            <img src={user.icon} alt="User" className='h-14 min-w-16 rounded-full border-2 border-gray-500' />
             <p className="text-textPrimary">{user.username}</p>
           </div>
         ) : null)}
@@ -156,8 +164,8 @@ const HomePage = () => {
       <div className="flex flex-col gap-2 px-4 py-2 mt-8">
         <h1 className="text-xl font-bold text-textPrimary">Canaux</h1>
         <div className="flex w-2/3 ">
-          <button className="w-1/2 bg-accent text-textPrimary py-2 rounded-2xl rounded-r-none">Public</button>
-          <button className="w-1/2 bg-secondary text-textPrimary py-2 rounded-2xl rounded-l-none">Privés</button>
+          <button onClick={() => setDisplayedChannel("public")} className={`w-1/2 ${displayedChannel === "public" ? "bg-accent" : "bg-secondary"} text-textPrimary py-2 rounded-2xl rounded-r-none`}>Public</button>
+          <button onClick={() => setDisplayedChannel("private")} className={`w-1/2 ${displayedChannel === "private" ? "bg-accent" : "bg-secondary"} text-textPrimary py-2 rounded-2xl rounded-l-none`}>Privés</button>
         </div>
       </div>
       <div className='h-full flex flex-col gap-2 bg-secondary p-4 rounded-t-3xl'>
@@ -177,16 +185,20 @@ const HomePage = () => {
             <MessageCardSkeleton />
           </>
         )}
+        {roomsToShow && roomsToShow.length === 0 && <p className="text-textPrimary text-center">Aucun canal trouvé</p>}
         {
-          rooms && rooms.map((room: any) => {
-            if (room.type !== 'public') return;
+          roomsToShow && roomsToShow.map((room: any) => {
             return (
               <div key={room.id}>
                 <div onClick={async () => await joinRoom(room.id)} className="flex py-2 items-center justify-between">
                   <div className="w-10/12 flex gap-2 justify-start items-center">
                     <p className={`h-12 w-1/5 bg-black text-white rounded-full flex justify-center items-center text-3xl`}>{room.roomName[0]}</p>
                     <div className="w-4/5 flex flex-col gap-0">
-                      <p className="text-textPrimary">{room.roomName}</p>
+                      <p className="text-textPrimary">
+                        {room.roomName}
+                        <span className={`${room.type !== "privateTwo" && "hidden"}`}> avec {getOtherUserInTwoChat(room)}</span>
+                        <span className={`${room.type !== "privateGroup" && "hidden"}`}> de Groupe</span>
+                      </p>
                       <p className="w-10/12 text-textSecondary truncate ...">{room.roomMessages[room.roomMessages.length - 1]?.message}</p>
                     </div>
                   </div>

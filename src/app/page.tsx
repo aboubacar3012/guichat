@@ -22,7 +22,7 @@ const WelcomePage = () => {
 
 
   const startChat = () => {
-    if (auth.isAuthenticated && auth.username) return router.push(`/home`);
+    if (auth.isAuthenticated && auth.username && auth.username === username) return router.push(`/home`);
     // alert("Reviens dans quelques minutes, le nombre de participants est limité pour le moment. Merci de ta comprehension.")
     // return;
     if (!username) {

@@ -48,24 +48,18 @@ const ChatWindow = (
   // }, []);
 
   const getRoomMessages = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rooms/${chatId}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rooms/room/${chatId}`);
     const data = await response.json();
-    // console.log(data);
+    console.log(data);
     setMessages(data.roomMessages);
     setRoomName(data.roomName);
   }
 
-  // Demander la permission pour les notifications
-  useEffect(() => {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission();
-    }
-  }, []);
 
   useEffect(() => {
     if (auth.isAuthenticated && auth.username) {
-      setUsername(auth.username);
       getRoomMessages();
+      setUsername(auth.username);
     } else {
       return router.push(`/`);
     }
@@ -88,15 +82,8 @@ const ChatWindow = (
         username: data.username,
         timestamp: data.timestamp
       }
-      setMessages((prev) => [...prev, message]);
+      if(data) setMessages((prev) => [...prev, message]);
       scrollToBottom();
-
-      // Afficher une notification
-      if (Notification.permission === "granted") {
-        new Notification("Nouveau message de " + data.username, {
-          body: data.message,
-        });
-      }
     });
 
     return () => {
@@ -119,21 +106,23 @@ const ChatWindow = (
   }
 
 
-  console.log(username)
 
 
 
+  if (!messages) return <TwoChatLoading />
   return (
     <div className="relative h-screen bg-primary overflow-hidden">
-      <Link href="/home" className='absolute top-2 left-4 text-white'>
-        <IoMdArrowRoundBack className="font-light h-10 w-10" />
-      </Link>
+      <div>
+        <Link href="/home" className='absolute top-2 left-4 text-white'>
+          <IoMdArrowRoundBack className="font-light h-10 w-10" />
+        </Link>
 
-      <div className="flex gap-4 py-4 justify-center items-center p-4">
-        {/* <Image src="/images/user.png" alt="User" width={50} height={50} className='h-12 w-13 rounded-full' /> */}
-        <p className="text-textPrimary text-lg font-semibold">
-          {roomName}
-        </p>
+        <div className="flex gap-4 py-4 justify-center items-center p-4">
+          {/* <Image src="/images/user.png" alt="User" width={50} height={50} className='h-12 w-13 rounded-full' /> */}
+          <p className="text-textPrimary text-lg font-semibold">
+            {roomName}
+          </p>
+        </div>
       </div>
 
       <div className="w-full flex flex-col scrollable-content overflow-y-auto h-full  p-4">
@@ -141,7 +130,7 @@ const ChatWindow = (
           {formatDate(new Date().toString())}
         </p>
         {
-          messages.map((msg, index) => (
+          messages && messages.map((msg, index) => (
             <div key={index} className={`w-4/5 flex flex-col gap-2  text-textPrimary p-4 rounded-2xl my-2 ${msg.username === username ? 'self-end bg-blue-500' : 'bg-secondary'}`}>
               {msg.username !== username && <p className="font-semibold text-gray-500">{msg.username}</p>}
               <p className="w-full break-words">
