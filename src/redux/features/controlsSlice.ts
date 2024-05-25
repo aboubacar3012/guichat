@@ -5,12 +5,14 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 type Controls = {
   values: {
     showRoomForm: boolean;
+    showPostForm: boolean;
   };
 };
 
 const initialState: Controls = {
   values: {
     showRoomForm: false,
+    showPostForm: false,
   },
 };
 

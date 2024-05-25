@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-  key: "guichat_v1.1.0",
+  key: "guichat_v1.1.2",
   storage,
 };
 

@@ -22,7 +22,7 @@ const WelcomePage = () => {
 
 
   const startChat = () => {
-    if (auth.isAuthenticated && auth.username && auth.username === username) return router.push(`/home`);
+    if (auth.isAuthenticated && auth.user && auth.user.username && auth.user.username === username) return router.push(`/home`);
     // alert("Reviens dans quelques minutes, le nombre de participants est limité pour le moment. Merci de ta comprehension.")
     // return;
     if (!username) {
@@ -44,13 +44,15 @@ const WelcomePage = () => {
         icon: getRandomAvatar(),
         username: username
       })
-    }).then((response) => {
+    }).then(async (response) => {
       if (!response.ok) {
         alert('Une erreur est survenue, veuillez réessayer');
         return;
       }
+      const data = await response.json();
+      console.log(data);
       setUsername('')
-      dispatch(login({ username: username, isAuthenticated: true }));
+      dispatch(login({ user: data.user, isAuthenticated: true, }));
       setIsLoading(false);
       router.push(`/home`);
     });
@@ -58,7 +60,7 @@ const WelcomePage = () => {
   };
 
   useEffect(() => {
-    if (auth.isAuthenticated && auth.username) setUsername(auth.username);
+    if (auth.isAuthenticated && auth.user && auth.user.username) setUsername(auth.user.username);
   }, [auth]);
 
   useEffect(() => {

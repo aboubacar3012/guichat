@@ -5,6 +5,7 @@ import { Notifications } from "react-push-notification";
 import { Provider } from "react-redux";
 import { persistor, store } from "../redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import BottomTab from "../components/BottomTab";
 
 export default function ProvidersLayout({
   children,
@@ -18,6 +19,7 @@ export default function ProvidersLayout({
         <PersistGate persistor={persistor} loading={null}>
           {/* <ThemeProvider>  */}
           {children as any}
+          <BottomTab />
           {/* </ThemeProvider> */}
         </PersistGate>
       </Provider>

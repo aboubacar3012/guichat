@@ -4,7 +4,7 @@ import { VscSend } from "react-icons/vsc";
 import { Keyboard } from '@capacitor/keyboard';
 import { useEffect, useRef, useState } from 'react';
 import Pusher from 'pusher-js';
-import SendMsgForm from '@/src/components/SendMsgForm';
+import SendMsgForm from '@/src/app/message/[chatId]/SendMsgForm';
 import { formatDate, formatTime } from '@/src/libs/format-date';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
@@ -12,12 +12,9 @@ import { RootState } from '@/src/redux/store';
 import TwoChatLoading from '@/src/components/LoadingOverlay';
 import Link from 'next/link';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { MessageType } from '@/src/types/message.type';
 
-type Message = {
-  message: string;
-  username: string;
-  timestamp: string;
-}
+
 
 
 const ChatWindow = (
@@ -25,7 +22,7 @@ const ChatWindow = (
 ) => {
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessageType[]>([]);
   const messageEndRef = useRef<HTMLInputElement>(null);
   const [roomName, setRoomName] = useState('');
   const auth = useSelector((state: RootState) => state.auth);
@@ -57,9 +54,9 @@ const ChatWindow = (
 
 
   useEffect(() => {
-    if (auth.isAuthenticated && auth.username) {
+    if (auth.isAuthenticated && auth.user?.username) {
       getRoomMessages();
-      setUsername(auth.username);
+      setUsername(auth.user?.username);
     } else {
       return router.push(`/`);
     }
@@ -104,10 +101,6 @@ const ChatWindow = (
   if (!chatId) {
     return <div>Chat not found</div>;
   }
-
-
-
-
 
   if (!messages) return <TwoChatLoading />
   return (

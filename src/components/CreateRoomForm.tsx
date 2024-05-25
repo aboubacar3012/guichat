@@ -19,11 +19,11 @@ const CreateRoomForm = () => {
       alert('Vous devez entrer un nom de canal');
       return;
     }
-    if(name.length <= 4) {
+    if (name.length <= 4) {
       alert('Le nom du canal doit contenir au moins 5 caractères');
       return;
     }
-    const username = auth.username;
+    const username = auth?.user?.username;
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/rooms`, {
       method: 'POST',
       headers: {
@@ -42,7 +42,7 @@ const CreateRoomForm = () => {
       window.location.reload();
     });
   }
-  
+
   if (!showRoomForm) {
     return null;
   }
