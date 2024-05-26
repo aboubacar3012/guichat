@@ -58,18 +58,12 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-primary ">
+    <div className="h-screen-safe bg-primary ">
       <CreateRoomForm />
       <Hero />
       <div className="flex flex-col px-4 py-2">
         <p className="text-textSecondary">Utilisateurs</p>
       </div>
-      <button
-        className="z-50 flex justify-center items-center fixed top-2 right-4 bg-blue-500 text-3xl text-white px-4  rounded-2xl"
-        onClick={() => dispatch(updateControl({ showRoomForm: true }))}
-      >
-        +
-      </button>
       <div className='w-full overflow-x-scroll justify-start items-center flex gap-4 px-4'>
         <UserProfile user={auth.user as UserType} isMe />
         {isUsersLoading && <UserSkeletonList />}
@@ -83,7 +77,7 @@ const HomePage = () => {
           <button onClick={() => setDisplayedChannel("private")} className={`w-1/2 ${displayedChannel === "private" ? "bg-accent" : "bg-secondary"} text-textPrimary py-2 rounded-2xl rounded-l-none`}>Privés</button>
         </div>
       </div>
-      <div className='h-full flex flex-col gap-2 bg-secondary p-4 rounded-t-3xl'>
+      <div className='h-[24rem] flex flex-col gap-2 bg-secondary p-4 rounded-t-3xl overflow-y-auto'>
         {isRoomsLoading && <MessageCardSkeletonList />}
         {roomsToShow && roomsToShow.length === 0 && <p className="text-textPrimary text-center">Aucun canal trouvé</p>}
         <MessageCardList rooms={roomsToShow} />

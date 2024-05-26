@@ -8,6 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import BottomTab from "../components/BottomTab";
 import { Capacitor } from '@capacitor/core';
 import { Keyboard } from '@capacitor/keyboard';
+import { SafeArea } from 'capacitor-plugin-safe-area';
 
 export default function ProvidersLayout({
   children,
@@ -19,7 +20,7 @@ export default function ProvidersLayout({
     if (Capacitor.isNativePlatform()) {
       Keyboard.addListener('keyboardWillShow', (info) => {
         console.log('keyboard will show with height:', info.keyboardHeight);
-        document.body.style.setProperty('--keyboard-height', `-${info.keyboardHeight}px`);
+        // document.body.style.setProperty('--keyboard-height', `-${info.keyboardHeight}px`);
         Keyboard.setScroll({ isDisabled: false });
       });
 
@@ -30,8 +31,21 @@ export default function ProvidersLayout({
     }
   }, []);
 
+  useEffect(() => {
+    (async function () {
+      const safeAreaData = await SafeArea.getSafeAreaInsets();
+      const { insets } = safeAreaData;
+      for (const [key, value] of Object.entries(insets)) {
+        document.documentElement.style.setProperty(
+          `--safe-area-inset-${key}`,
+          `${value}px`,
+        );
+      }
+    })()
+  }, []);
+
   return (
-    <div>
+    <div className="pt-safe px-safe pb-safe toolbar">
       <Notifications />
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={null}>

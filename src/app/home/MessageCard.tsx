@@ -59,7 +59,9 @@ const MessageCard = ({ room }: RoomProps) => {
         <p className="w-2/12 text-textSecondary">{formatTime(room.roomMessages[room.roomMessages.length - 1]?.timestamp)}</p>
         {/* divider */}
       </div>
-      <div className="absolute right-0 w-4/5 h-0.5 bg-gray-700"></div>
+      <div className="flex justify-end">
+        <div className="w-4/5 h-0.5 bg-gray-700"></div>
+      </div>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getRandomAvatar } from '@/src/avatars';
 import { useDispatch, useSelector } from "react-redux";
-import { addUsername, isAuthenticated, login } from "../redux/features/authSlice";
+import { isAuthenticated, login } from "../redux/features/authSlice";
 import { RootState } from "../redux/store";
 import LoadingOverlay from "../components/LoadingOverlay";
 
@@ -72,7 +72,7 @@ const WelcomePage = () => {
   }, [errorMesaage]);
 
   return (
-    <div className="relative h-screen flex justify-center">
+    <div className="relative h-screen-safe flex justify-center">
       {
         isLoading && <LoadingOverlay />
       }

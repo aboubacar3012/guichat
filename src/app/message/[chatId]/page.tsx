@@ -32,7 +32,7 @@ const ChatWindow = (
 
   const chatId = params.chatId;
 
-  
+
 
   const getRoomMessages = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rooms/room/${chatId}`);
@@ -69,7 +69,7 @@ const ChatWindow = (
         username: data.username,
         timestamp: data.timestamp
       }
-      if(data) setMessages((prev) => [...prev, message]);
+      if (data) setMessages((prev) => [...prev, message]);
       scrollToBottom();
     });
 
@@ -94,7 +94,7 @@ const ChatWindow = (
 
   if (!messages) return <TwoChatLoading />
   return (
-    <div className="relative h-screen bg-primary overflow-hidden">
+    <div className="relative h-screen-safe bg-primary overflow-hidden">
       <div>
         <Link href="/home" className='absolute top-2 left-4 text-white'>
           <IoMdArrowRoundBack className="font-light h-10 w-10" />

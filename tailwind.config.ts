@@ -15,8 +15,13 @@ const config: Config = {
         textPrimary: '#ffffff',
         textSecondary: '#8e8e93',
       },
+      height: {
+        'screen-safe': 'calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom))',
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-safe-area-capacitor')
+  ],
 };
 export default config;

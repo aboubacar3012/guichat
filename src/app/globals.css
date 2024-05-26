@@ -11,6 +11,10 @@
 
   /* Keyboard */
   --keyboard-height: 0px;
+
+  /* SafeArea */
+  /* --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom); */
 }
 
 @media (prefers-color-scheme: dark) {}
@@ -30,7 +34,7 @@ body {
 }
 
 .scrollable-content {
-  height: calc(100vh - 150px);
+  height: calc(100vh - 150px - var(--safe-area-inset-bottom) - var(--safe-area-inset-top));
   /* Ajustez cette valeur en fonction de la hauteur du formulaire fixé */
   overflow-y: auto;
 }
