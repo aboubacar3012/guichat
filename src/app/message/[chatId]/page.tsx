@@ -32,17 +32,7 @@ const ChatWindow = (
 
   const chatId = params.chatId;
 
-  // useEffect(() => {
-  //   Keyboard.addListener('keyboardWillShow', (info) => {
-  //     console.log('keyboard will show with height:', info.keyboardHeight);
-  //     document.body.style.setProperty('--keyboard-height', `${info.keyboardHeight}px`);
-  //   });
-
-  //   Keyboard.addListener('keyboardWillHide', () => {
-  //     console.log('keyboard will hide');
-  //     document.body.style.removeProperty('--keyboard-height');
-  //   });
-  // }, []);
+  
 
   const getRoomMessages = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rooms/room/${chatId}`);
