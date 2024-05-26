@@ -32,16 +32,18 @@ export default function ProvidersLayout({
   }, []);
 
   useEffect(() => {
-    (async function () {
-      const safeAreaData = await SafeArea.getSafeAreaInsets();
-      const { insets } = safeAreaData;
-      for (const [key, value] of Object.entries(insets)) {
-        document.documentElement.style.setProperty(
-          `--safe-area-inset-${key}`,
-          `${value}px`,
-        );
-      }
-    })()
+    if (Capacitor.isNativePlatform()) {
+      (async function () {
+        const safeAreaData = await SafeArea.getSafeAreaInsets();
+        const { insets } = safeAreaData;
+        for (const [key, value] of Object.entries(insets)) {
+          document.documentElement.style.setProperty(
+            `--safe-area-inset-${key}`,
+            `${value}px`,
+          );
+        }
+      })()
+    }
   }, []);
 
   return (

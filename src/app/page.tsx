@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { isAuthenticated, login } from "../redux/features/authSlice";
 import { RootState } from "../redux/store";
 import LoadingOverlay from "../components/LoadingOverlay";
+import { Capacitor } from "@capacitor/core";
 
 
 const WelcomePage = () => {
@@ -71,6 +72,20 @@ const WelcomePage = () => {
     }
   }, [errorMesaage]);
 
+  if (!Capacitor.isNativePlatform()) {
+    return (
+      <div className="flex justify-center items-center h-screen p-4">
+        {/* card */}
+        <div className="bg-white p-1 rounded-lg shadow-lg text-center">
+          <h1 className="text-3xl font-bold">Indisponible</h1>
+          <p className="text-md">Cette application est disponible uniquement sur mobile</p>
+          <p className="text-sm">
+            Vous pouvez la télécharger sur le Play Store ou l&apos;App Store
+          </p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="relative h-screen-safe flex justify-center">
       {
