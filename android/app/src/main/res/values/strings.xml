@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Guichat</string>
+    <string name="title_activity_main">Guichat</string>
+    <string name="package_name">com.guichat.app</string>
+    <string name="custom_url_scheme">com.guichat.app</string>
+</resources>

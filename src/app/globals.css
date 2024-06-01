@@ -13,8 +13,8 @@
   --keyboard-height: 0px;
 
   /* SafeArea */
-  /* --safe-area-inset-top: env(safe-area-inset-top);
-  --safe-area-inset-bottom: env(safe-area-inset-bottom); */
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 @media (prefers-color-scheme: dark) {}
@@ -37,6 +37,10 @@ body {
   height: calc(100vh - 150px - var(--safe-area-inset-bottom) - var(--safe-area-inset-top));
   /* Ajustez cette valeur en fonction de la hauteur du formulaire fixé */
   overflow-y: auto;
+}
+
+.h-screen-safe {
+  height: calc(100vh - var(--safe-area-inset-bottom) - var(--safe-area-inset-top)) !important;
 }
 
 @layer utilities {}
