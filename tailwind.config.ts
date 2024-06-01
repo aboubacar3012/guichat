@@ -17,6 +17,8 @@ const config: Config = {
       },
       height: {
         'screen-safe': 'calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom))',
+        // disable webkit-fill-available
+        'screen': '100vh',
       }
     },
   },

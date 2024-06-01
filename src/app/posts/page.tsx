@@ -25,7 +25,7 @@ const PostsPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-primary w-full pb-28">
+    <div className="relative h-screen-safe flex flex-col justify-center overflow-hidden">
       <CreatePostForm posts={posts} setPosts={setPosts} />
       <Hero />
       {/* divider */}
@@ -37,7 +37,9 @@ const PostsPage = () => {
       {
         !isLoadingPosts && posts.length === 0 && <EmptyPosts />
       }
-      <PostList posts={posts} setPosts={setPosts} />
+      <div className="w-full flex flex-col overflow-y-scroll pb-20">
+        <PostList posts={posts} setPosts={setPosts} />
+      </div>
     </div>
   );
 }

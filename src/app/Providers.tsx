@@ -20,7 +20,7 @@ export default function ProvidersLayout({
     if (Capacitor.isNativePlatform()) {
       Keyboard.addListener('keyboardWillShow', (info) => {
         console.log('keyboard will show with height:', info.keyboardHeight);
-        // document.body.style.setProperty('--keyboard-height', `-${info.keyboardHeight}px`);
+        document.body.style.setProperty('--keyboard-height', `-${info.keyboardHeight}px`);
         Keyboard.setScroll({ isDisabled: false });
       });
 
@@ -47,7 +47,7 @@ export default function ProvidersLayout({
   }, []);
 
   return (
-    <div className="pt-safe px-safe pb-safe toolbar">
+    <div className=""> {/* pt-safe px-safe pb-safe toolbar */}
       <Notifications />
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={null}>

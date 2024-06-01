@@ -16,13 +16,9 @@ type PostListProps = {
 const PostList = ({ posts, setPosts }: PostListProps) => {
 
   return (
-    <div>
-      {
-        posts && posts.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))
-      }
-    </div>
+    posts && posts.map((post) => (
+      <PostCard key={post.id} post={post} />
+    ))
   );
 }
 

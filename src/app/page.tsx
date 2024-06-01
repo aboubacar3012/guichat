@@ -1,5 +1,5 @@
 "use client";
-
+import { Browser } from '@capacitor/browser';
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -86,18 +86,26 @@ const WelcomePage = () => {
       </div>
     );
   }
+
+  const openCapacitorSite = async () => {
+    await Browser.open({ url: 'http://capacitorjs.com/' });
+  };
+  // return <div>
+  //   <h1>
+  //     Hello World
+  //   </h1>
+  //   <button onClick={openCapacitorSite}>Go to home</button>
+  // </div>
   return (
     <div className="relative h-screen-safe flex justify-center">
-      {
-        isLoading && <LoadingOverlay />
-      }
+      {isLoading && <LoadingOverlay />}
       {/* Le nom de mon entreprrise */}
       <img
         src="https://img.freepik.com/free-vector/vector-social-contact-seamless-pattern-white-blue_1284-41919.jpg?t=st=1716406541~exp=1716410141~hmac=3f12a8325a047bb43430a5454861b203fbfc8272e4f33b251ab21743df8f245e&w=826"
         alt="homeV2"
         // width={1920}
         // height={1080}
-        className="object-cover w-full h-full"
+        className="object-cover w-full h-screen-safe"
       />
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-80"></div>
       <div className="absolute top-28 text-center">
@@ -109,8 +117,8 @@ const WelcomePage = () => {
           Guichat est une application de messagerie instantanée qui vous permet de discuter avec vos amis en temps réel.
         </p>
         <p className="text-yellow-400 text-lg text-center mb-10 px-1">
-          {/* Cette application est sécurisée et respecte votre vie privée. */}
-          Cette application est en cours de développement, mais vous pouvez deja le tester en integrant le chat de test.
+          Cette application est sécurisée et respecte votre vie privée.
+          {/* Cette application est en cours de développement, mais vous pouvez deja le tester en integrant le chat de test. */}
         </p>
 
         <div className="w-4/5 flex flex-col gap-2">

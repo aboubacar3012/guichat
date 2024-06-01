@@ -14,6 +14,11 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@capacitor/browser@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/browser/-/browser-6.0.0.tgz#566bc2b77422f764499b84f6ee1723c3ba715622"
+  integrity sha512-mtZq8qNwN/lqBDMYSF5h0oa4Kru6UWp4OyUXG4Rw13GKXkX6QoxlSy3k2MEBS3BGvK6OG7FAMTMAjh1QyynDxQ==
+
 "@capacitor/cli@^6.0.0":
   version "6.0.0"
   resolved "https://registry.npmjs.org/@capacitor/cli/-/cli-6.0.0.tgz"

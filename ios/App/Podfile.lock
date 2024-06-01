@@ -1,6 +1,8 @@
 PODS:
   - Capacitor (6.0.0):
     - CapacitorCordova
+  - CapacitorBrowser (6.0.0):
+    - Capacitor
   - CapacitorCordova (6.0.0)
   - CapacitorKeyboard (6.0.0):
     - Capacitor
@@ -9,6 +11,7 @@ PODS:
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorBrowser (from `../../node_modules/@capacitor/browser`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorKeyboard (from `../../node_modules/@capacitor/keyboard`)"
   - CapacitorPluginSafeArea (from `../../node_modules/capacitor-plugin-safe-area`)
@@ -16,6 +19,8 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   Capacitor:
     :path: "../../node_modules/@capacitor/ios"
+  CapacitorBrowser:
+    :path: "../../node_modules/@capacitor/browser"
   CapacitorCordova:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorKeyboard:
@@ -25,10 +30,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Capacitor: 559d073c4ca6c27f8e7002c807eea94c3ba435a9
+  CapacitorBrowser: 7e1e2cdbb3e372f09f0bad0c4c21a6d187b679ad
   CapacitorCordova: 8c4bfdf69368512e85b1d8b724dd7546abeb30af
   CapacitorKeyboard: deacbd09d8d1029c3681197fb05d206b721d5f73
   CapacitorPluginSafeArea: b99681e1d9986ae1c059ca0e1b5e7025916e5e04
 
-PODFILE CHECKSUM: 9b65c7074cd6247e53be810ccfbd3f9c42ef4b47
+PODFILE CHECKSUM: a5a594b16e22c35bb40c74106b264a4de22b56fb
 
 COCOAPODS: 1.15.2

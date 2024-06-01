@@ -94,24 +94,25 @@ const ChatWindow = (
 
   if (!messages) return <TwoChatLoading />
   return (
-    <div className="relative h-screen-safe bg-primary overflow-hidden">
-      <div>
-        <Link href="/home" className='absolute top-2 left-4 text-white'>
+    <div className="relative h-screen-safe flex justify-center overflow-hidden">
+
+      {/* Head */}
+      <div className="fixed flex w-full gap-4 py-4 justify-between items-center p-4 bg-primary">
+        <Link href="/home" className=' text-white'>
           <IoMdArrowRoundBack className="font-light h-10 w-10" />
         </Link>
-
-        <div className="flex gap-4 py-4 justify-center items-center p-4">
-          {/* <Image src="/images/user.png" alt="User" width={50} height={50} className='h-12 w-13 rounded-full' /> */}
-          <p className="text-textPrimary text-lg font-semibold">
-            {roomName}
-          </p>
-        </div>
+        {/* <Image src="/images/user.png" alt="User" width={50} height={50} className='h-12 w-13 rounded-full' /> */}
+        <p className="text-textPrimary text-lg font-semibold">
+          {roomName}
+        </p>
+        <p></p>
       </div>
 
-      <div className="w-full flex flex-col scrollable-content overflow-y-auto h-full  p-4">
-        <p className="text-textSecondary py-4 text-center">
+      {/* Body */}
+      <div className="w-full flex flex-col overflow-y-scroll p-4 pt-20">
+        {/* <p className="text-textSecondary py-4 text-center">
           {formatDate(new Date().toString())}
-        </p>
+        </p> */}
         {
           messages && messages.map((msg, index) => (
             <div key={index} className={`w-4/5 flex flex-col gap-2  text-textPrimary p-4 rounded-2xl my-2 ${msg.username === username ? 'self-end bg-blue-500' : 'bg-secondary'}`}>
@@ -128,12 +129,10 @@ const ChatWindow = (
         <div className='mt-28' ref={messageEndRef}></div>
       </div>
 
-
-      {/* chat input */}
-      <div className="fixed max-w-[430px] bottom-0 left-1/2 transform -translate-x-1/2 w-full bg-secondary rounded-t-[20px] p-4">
+      {/* Bottom */}
+      <div className="absolute max-w-[430px] bottom-0 left-1/2 transform -translate-x-1/2 w-full bg-secondary rounded-t-[20px] p-4">
         <SendMsgForm chatId={chatId} message={message} setMessage={setMessage} />
       </div>
-
     </div>
   );
 };
